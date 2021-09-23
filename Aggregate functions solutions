@@ -1,0 +1,86 @@
+Aggregate functions solutions
+
+
+1. Select the total number of Orders.
+Time: ~ 5 min
+Level of Difficulty: low
+
+Solution:
+
+select count (*) from orders o;
+
+2. Select number of orders that have ship region.
+Time: ~ 5 min
+Level of Difficulty: low
+
+Solution:
+
+select count (o.ship_region) from orders o;
+
+3. Select the most expensive product.
+Time: ~ 5 min
+Level of Difficulty: low
+
+Solution:
+
+select max(p.unit_price) from products p ;
+
+4. Select total price of order with id = 10258;
+Time: ~ 5 min
+Level of Difficulty: low
+
+Solution:
+
+select sum(od.unit_price) from order_details od 
+where od.order_id  = 10258;
+
+
+5. Select the least expensive product from order with id = 10263
+Time: ~ 15 min
+Level of Difficulty: medium
+
+Solution:
+
+select min(p.unit_price) from orders o 
+left join order_details od 
+on od.order_id  = o.order_id 
+left join products p 
+on p.product_id = od.product_id
+where o.order_id = 10263
+
+
+6. Select all products that have price which is above the average price.
+Time: ~ 10 min
+Level of Difficulty: medium
+
+
+select p.product_name, p.unit_price from products p 
+where p.unit_price > (select avg(p2.unit_price) from products p2)
+
+
+
+7. Calculate number of products from category Seafood.
+
+Time: ~ 10
+Level of Difficulty: low 
+
+Solution:
+
+   select count(p.product_id) from products p 
+   left join categories c 
+   on c.category_id  = p.category_id 
+   where c.category_name  = 'Seafood'
+
+
+8. Sumarize total value of products in orders made in 1996 (before discount).
+
+Time: ~ 15
+Level of Difficulty: medium
+
+Solution:
+
+   select sum(od.quantity * od.unit_price) 
+   from order_details od 
+   left join orders o 
+   on od.order_id  = o.order_id 
+   where o.order_date between '1996-01-01' and '1996-12-31'
